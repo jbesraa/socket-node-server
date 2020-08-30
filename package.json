@@ -4,15 +4,31 @@
   "description": "socket-server",
   "main": "index.js",
   "type": "module",
+  "jest": {
+    "verbose": true,
+    "roots": [
+      "./src"
+    ],
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
   "scripts": {
     "start": "node ./src/server.js"
   },
   "author": "Esra@",
   "license": "ISC",
   "dependencies": {
+    "@babel/preset-env": "^7.11.0",
     "express": "^4.17.1"
   },
   "devDependencies": {
-    "eslint": "^7.7.0"
+    "@babel/core": "^7.11.4",
+    "@babel/node": "^7.10.5",
+    "babel-polyfill": "^6.26.0",
+    "eslint": "^7.7.0",
+    "jest": "^26.4.2",
+    "supertest": "^4.0.2"
   }
 }
