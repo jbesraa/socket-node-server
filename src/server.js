@@ -10,6 +10,8 @@ server.get('/', (req,res) => {
 
 const startServer = (s = server) => {
 	s.listen(PORT, () => {
-		console.log(`Server running @ http://localhost:${PORT}`);
+		console.log(`Server running @http://localhost:${PORT}`);
 	});
 };
+
+startServer();
