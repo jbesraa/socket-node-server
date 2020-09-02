@@ -1,0 +1,10 @@
+ { 
+	"verbose": true,
+	"roots": [
+		"../src"
+	],
+	"testEnvironment": "node",
+	"coveragePathIgnorePatterns": [
+		"../node_modules/"
+	]
+}

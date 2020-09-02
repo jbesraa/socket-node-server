@@ -4,17 +4,8 @@
   "description": "socket-server",
   "main": "index.js",
   "type": "module",
-  "jest": {
-    "verbose": true,
-    "roots": [
-      "./src"
-    ],
-    "testEnvironment": "node",
-    "coveragePathIgnorePatterns": [
-      "/node_modules/"
-    ]
-  },
   "scripts": {
+    "test": "jest --config ./config/jest-config.json",
     "start": "node ./src/server.js"
   },
   "author": "Esra@",
