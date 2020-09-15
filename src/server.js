@@ -1,17 +1,27 @@
 import express from 'express';
+import socket from 'socket.io';
+import http from 'http';
 
-export const server = express();
+export const app = express();
+const server = http.Server(app);
+const io = socket(server);
+const PORT = process.env.PORT ||  8080;
 
-const PORT = 8080;
-
-server.get('/', (req,res) => {
+app.get('/', (req,res) => {
 	res.send('Hello World!');
 });
 
-const startServer = (s = server) => {
-	s.listen(PORT, () => {
-		console.log(`Server running @http://localhost:${PORT}`);
+io.on('connection', (socket) => {
+	console.log('user connected');
+});
+
+const startServer = (s = server, p = PORT) => {
+	s.listen(PORT, (err) => {
+		if(err) throw err;
+		const host = 'http://localhost';
+		console.log(`Server running @ ${host}:${p}`);
 	});
 };
 
 startServer();
+
