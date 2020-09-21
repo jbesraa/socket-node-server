@@ -13,8 +13,7 @@ app.get('/', (req,res) => {
 
 io.on('connection', (socket) => {
 	socket.on('message', (msg) => {
-		console.log('message in BE', msg);
-		io.sockets.emit('message', msg);
+		io.emit('message', msg);
 	});
 });
 
