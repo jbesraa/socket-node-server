@@ -7,11 +7,12 @@ let clientSocket;
 let httpServer;
 let httpServerAddr;
 
+jest.setTimeout(50000);
+
 const clientConfiguration = {
-	'reconnection delay': 0,
-	'reopen delay': 0,
-	'force new connection': true,
-	transports: ['websocket'],
+	transports: ['websocket']
+	, forceNew: true
+	, reconnection: false
 };
 
 beforeAll((done) => {
@@ -29,6 +30,7 @@ afterAll((done) => {
 beforeEach((done) => {
 	clientSocket = ioClient.connect(`http://[${httpServerAddr.address}]:${httpServerAddr.port}`, clientConfiguration);
 	clientSocket.on('connect', () => {
+		console.log('socket connected');
 		done();
 	});
 });
@@ -40,7 +42,7 @@ afterEach((done) => {
 	done();
 });
 
-describe('basic socket example', () => {
+describe('basic socket example',  () => {
 	test('should communicate', (done) => {
 		ioServer.emit('echo', 'Hello World');
 		clientSocket.once('echo', (message) => {
@@ -52,12 +54,20 @@ describe('basic socket example', () => {
 		});
 	});
 
-	test('should communicate with waiting for socket.io handshakes', async (done) => {
-		clientSocket.emit('message', 'some messages');
-		console.log('ioServer', ioServer);
-		ioServer.on('connection', (soc) => {
-			console.log('soc',soc);
-			done();
-		} );
+	test('should communicate with waiting for socket.io handshakes', (done) => {
+		const rec = ioClient.connect(`http://[${httpServerAddr.address}]:${httpServerAddr.port}`, clientConfiguration);
+		rec.on('connect', () => {
+			console.log('reciever socket opened');
+		});
+		setTimeout(( ) => {
+			clientSocket.emit('message', 'some messages');
+			rec.on('message', (msg) => {
+				expect(msg).toBe('some messages');
+				if (rec.connected) {
+					rec.disconnect();
+				}
+				done();
+			});
+		}, 1000);
 	});
 });
