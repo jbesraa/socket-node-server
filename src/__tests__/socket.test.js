@@ -31,6 +31,7 @@ beforeEach((done) => {
 	clientSocket = ioClient.connect(`http://[${httpServerAddr.address}]:${httpServerAddr.port}`, clientConfiguration);
 	clientSocket.on('connect', () => {
 		console.log('socket connected');
+		clientSocket.emit('room', '12');
 		done();
 	});
 });
@@ -42,8 +43,8 @@ afterEach((done) => {
 	done();
 });
 
-describe('basic socket example',  () => {
-	test('should communicate', (done) => {
+describe('socket',  () => {
+	test('message from server to client', (done) => {
 		ioServer.emit('echo', 'Hello World');
 		clientSocket.once('echo', (message) => {
 			expect(message).toBe('Hello World');
@@ -54,9 +55,10 @@ describe('basic socket example',  () => {
 		});
 	});
 
-	test('should communicate with waiting for socket.io handshakes', (done) => {
+	test('message between two different clients', (done) => {
 		const rec = ioClient.connect(`http://[${httpServerAddr.address}]:${httpServerAddr.port}`, clientConfiguration);
 		rec.on('connect', () => {
+			rec.emit('room', '12');
 			console.log('reciever socket opened');
 		});
 		setTimeout(( ) => {
