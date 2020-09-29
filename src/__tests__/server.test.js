@@ -1,8 +1,8 @@
 import 'babel-polyfill';
 import supertest from 'supertest';
-import { server } from '../server.js';
+import { app } from '../server.js';
 
-const request = supertest(server);
+const request = supertest(app);
 
 describe('test server', () => {
 	it('/', async done => {

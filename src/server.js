@@ -11,14 +11,14 @@ app.get('/', (req,res) => {
 	res.send('Hello World!');
 });
 
-let r;
 io.on('connection', (socket) => {
+	let privateRoom;
 	socket.on('room', room => {
-		r = room;
+		privateRoom = room;
 		socket.join(room);
 	});
 	socket.on('message', (msg) => {
-		io.sockets.in(r).emit('message', msg);
+		io.sockets.in(privateRoom).emit('message', msg);
 	});
 });
 

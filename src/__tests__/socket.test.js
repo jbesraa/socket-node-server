@@ -1,7 +1,6 @@
 import 'babel-polyfill';
 import ioClient from 'socket.io-client';
-import { httpServer as http, io as ioServer } from '../server';
-import server from '../server';
+import server, { httpServer as http, io as ioServer } from '../server';
 
 let clientSocket;
 let httpServer;
